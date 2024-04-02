@@ -1,0 +1,736 @@
+//--index.php--//
+<?php
+
+require_once "controllers/template.controller.php";
+
+$template = new templateController();
+
+$template -> ctrCargarPlantilla();
+
+?>
+
+//--CONEXION MYSQL--//
+<?php 
+
+ class Conexion{
+
+     static public function conectar(){
+       try {
+         $conn = new PDO("mysql:host=localhost;dbname=proyectos","root","");
+         return $conn;
+         }
+       catch (PDOExeption $e) {
+          echo 'fallo la conexion:  ' . $e->getMessage();      
+        
+        }
+     }
+ }
+?>
+
+//--GRAFICOS--//
+
+<section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Seguimiento Renovación de iPad 5ta. Generación | Implementaciones</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="https://sites.google.com/coppel.com/staff-it/inicio?authuser=0">Home</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- AREA CHART -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"> Grafica de Areas</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- DONUT CHART -->
+            <div class="card card-danger">
+              <div class="card-header">
+                <h3 class="card-title">Grafica de Dona</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- PIE CHART -->
+            <div class="card card-danger">
+              <div class="card-header">
+                <h3 class="card-title">Grafica de Tarta</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col (LEFT) -->
+          <div class="col-md-6">
+            <!-- LINE CHART -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Grafica de Lineas</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- BAR CHART -->
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Grafica de Barras</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- STACKED BAR CHART -->
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Grafica de Barras Apilada</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="stackedBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col (RIGHT) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <script>
+
+      $(document).ready(function(){
+
+        $.ajax({
+            url:"ajax/procesos.ajax.php",
+            method: "GET",
+            success: function(respuesta){
+                  
+                var data = JSON.parse(respuesta);
+                var oficina = [];
+                console.log(data);
+                var tiendas = [];
+                var terminadas = [];
+
+                for (let index = 0; index < data.length; index++){
+                    oficina.push(data[index][2]);
+                    tiendas.push(data[index][3]);
+                    terminadas.push(data[index][4])
+                }
+                
+            
+
+                 //--------------
+                 //- AREA CHART -
+                 //--------------
+
+    // Get context with jQuery - using jQuery's .get() method.
+    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+
+var areaChartData = {
+  labels  : oficina,
+  datasets: [
+    {
+      label               : 'Total de Tiendas',
+      backgroundColor     : 'rgba(60,141,188,0.9)',
+      borderColor         : 'rgba(60,141,188,0.8)',
+      pointRadius          : false,
+      pointColor          : '#3b8bba',
+      pointStrokeColor    : 'rgba(60,141,188,1)',
+      pointHighlightFill  : '#fff',
+      pointHighlightStroke: 'rgba(60,141,188,1)',
+      data                : tiendas
+    },
+
+    {
+        label               : 'Tiendas Termindas',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : terminadas
+    }
+   
+  ]
+}
+
+var areaChartOptions = {
+  maintainAspectRatio : false,
+  responsive : true,
+  legend: {
+    display: false
+  },
+  scales: {
+    xAxes: [{
+      gridLines : {
+        display : false,
+      }
+    }],
+    yAxes: [{
+      gridLines : {
+        display : false,
+      }
+    }]
+  }
+}
+
+// This will get the first returned node in the jQuery collection.
+new Chart(areaChartCanvas, {
+  type: 'line',
+  data: areaChartData,
+  options: areaChartOptions
+
+})
+//-------------
+//- LINE CHART -
+//--------------
+var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+var lineChartOptions = $.extend(true, {}, areaChartOptions)
+var lineChartData = $.extend(true, {}, areaChartData)
+lineChartData.datasets[0].fill = false;
+lineChartData.datasets[1].fill = false;
+lineChartOptions.datasetFill = false
+
+var lineChart = new Chart(lineChartCanvas, {
+  type: 'line',
+  data: lineChartData,
+  options: lineChartOptions
+})
+//-------------
+//- LINE CHART -
+//--------------
+var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+var lineChartOptions = $.extend(true, {}, areaChartOptions)
+var lineChartData = $.extend(true, {}, areaChartData)
+lineChartData.datasets[0].fill = false;
+lineChartData.datasets[1].fill = false;
+lineChartOptions.datasetFill = false;
+
+var lineChart = new Chart(lineChartCanvas, {
+  type: 'line',
+  data: lineChartData,
+  options: lineChartOptions
+})
+//-------------
+//- DONUT CHART -
+//-------------
+// Get context with jQuery - using jQuery's .get() method.
+
+$.ajax({
+            url:"ajax/procesos.ajax.php",
+            method: "GET",
+            success: function(respuesta){
+                  
+                var data = JSON.parse(respuesta);
+                var oficina = [];
+                var tiendas = [];
+
+                for (let index = 0; index < data.length; index++){
+                    oficina.push(data[index][2]);
+                    tiendas.push(data[index][3]);
+                   
+                }
+var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+var donutData        = {
+  labels: oficina,
+  datasets: [
+    {
+      data: tiendas,
+      backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de','black','withe','orange','pink','red','yellow','brown','grew','green','purple','blue','lime','gold','fuchsia','emerald','lilac','cream','blush','amber','aquamarine','beige','coral','indigo','lemonade','#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de','navy','olive'],
+    }
+  ]
+}
+var donutOptions     = {
+  maintainAspectRatio : false,
+  responsive : true,
+}
+//Create pie or douhnut chart
+// You can switch between pie and douhnut using the method below.
+new Chart(donutChartCanvas, {
+  type: 'doughnut',
+  data: donutData,
+  options: donutOptions
+})
+//-------------
+//- PIE CHART -
+//-------------
+// Get context with jQuery - using jQuery's .get() method.
+var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+var pieData        = donutData;
+var pieOptions     = {
+  maintainAspectRatio : false,
+  responsive : true,
+}
+//Create pie or douhnut chart
+// You can switch between pie and douhnut using the method below.
+new Chart(pieChartCanvas, {
+  type: 'pie',
+  data: pieData,
+  options: pieOptions
+})
+}       
+})
+//-------------
+//- BAR CHART -
+//-------------
+var barChartCanvas = $('#barChart').get(0).getContext('2d')
+var barChartData = $.extend(true, {}, areaChartData)
+var temp0 = areaChartData.datasets[0]
+var temp1 = areaChartData.datasets[1]
+barChartData.datasets[0] = temp1
+barChartData.datasets[1] = temp0
+
+var barChartOptions = {
+  responsive              : true,
+  maintainAspectRatio     : false,
+  datasetFill             : false
+}
+
+new Chart(barChartCanvas, {
+  type: 'bar',
+  data: barChartData,
+  options: barChartOptions
+})
+//---------------------
+//- STACKED BAR CHART -
+//---------------------
+var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
+var stackedBarChartData = $.extend(true, {}, barChartData)
+
+var stackedBarChartOptions = {
+  responsive              : true,
+  maintainAspectRatio     : false,
+  scales: {
+    xAxes: [{
+      stacked: true,
+    }],
+    yAxes: [{
+      stacked: true
+    }]
+  }
+}
+
+ new Chart(stackedBarChartCanvas, { 
+  type: 'bar',
+  data: stackedBarChartData,
+  options: stackedBarChartOptions
+ })
+}
+});
+})
+</script>
+
+//--DATATABLES--//
+<?php
+$conexion = new PDO("mysql:host=localhost;dbname=proyectos", "root", "");
+$PDO = $conexion;
+$statement = $PDO->prepare("SELECT * FROM renovacionipad");
+$statement->execute();
+$renovacionipad=$statement->fetchAll();
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+</head>
+   <script>
+    $(document).ready( function () {
+    $('#renovacionipad').DataTable(
+        {
+            "language":{
+                "url":"//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json"
+            }
+        }
+    );
+     } );
+   </script>
+<body>
+<table id="renovacionipad" class="display">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Nacional</th>
+            <th>Zona</th>
+            <th>Sistemas IT</th>
+            <th>Total de iPads</th>
+            <th>Total iPads Entregadas</th>
+            <th>Total iPads Pendientes</th>
+            <th>Porcentaje</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($renovacionipad as $renovacionipads): ?>
+        <tr>
+            <td><?php echo $renovacionipads[0] ?></td>
+            <td><?php echo $renovacionipads[1] ?></td>
+            <td><?php echo $renovacionipads[2] ?></td>
+            <td><?php echo $renovacionipads[3] ?></td>
+            <td><?php echo $renovacionipads[4] ?></td>
+            <td><?php echo $renovacionipads[5] ?></td>
+            <td><?php echo $renovacionipads[6] ?></td>
+            <td><?php echo $renovacionipads[7] ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+    
+</body>
+</html>
+
+//--TEMPLATE--//
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Renovacion de iPad 2024</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="views/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="views/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+   <?php
+       include "views/modules/navbar.php";
+       include "views/modules/aside.php";  
+    ?>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Infraestructura Tecnologica 2024</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="https://sites.google.com/coppel.com/staff-it/inicio?authuser=0">Home Sistemas IT</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6">
+          <div class="card card-primary card-outline">
+            <div class="card">              
+              <div class="card-body">
+                <h5 class="card-title">Seguimiento a Paneles Solares 2024</h5>              
+                <p class="card-text">
+                  Poyecto con un Avance del 54%. Status Proceso
+                </p>
+                  <a href="https://docs.google.com/spreadsheets/d/1j5kh58Fp7As2rqgqU4KEmHeEGoXN-BbHY-79WDD6k8M/edit#gid=1936088247" class="btn - btn-primary">Archivo de Seguimiento</a>
+                  <a href="http://localhost/adminlte/AdminLTE-3.2.0/index.php" class="btn btn-primary">Sitio</a>
+              </div>
+            </div>
+        </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <h5 class="card-title">Sistema de Des-energización en Tiendas 2024</h5>
+                <p class="card-text">
+                  Poyecto con un Avance del 15%. Status Proceso
+                </p>
+                <a href="https://docs.google.com/spreadsheets/d/1cJRGGdCJpOHGeHZHRlWmfeeJLP0rZQ-s1LPTheY3VT8/edit#gid=202166783" class="btn btn-primary">Archivo de Seguimiento</a>
+                <a href="http://localhost/adminlte/Proyectos/Desenergizacion/index.php" class="btn btn-primary">Sitio</a>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <h5 class="card-title">Retiro Micros de Temporada 2023</h5>
+                <p class="card-text">
+                  Poyecto con un Avance del 100%. Status Terminado
+                </p>
+                <a href="https://docs.google.com/spreadsheets/d/1Bk8QzCU0z6bNgblpxSB05Lk9HbnYWZnTnsmGv6qg9Ws/edit#gid=1118690120" class="btn btn-primary">Archivo de Seguimiento</a>
+                <a href="https://localhost/adminlte/Proyectos/Temporada/index.php" class="btn btn-primary">Sitio</a>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <h5 class="card-title">Configuración de Lectores QR Zebra DS2208</h5>
+                <p class="card-text">
+                  Poyecto con un Avance del 99.83%. Status: Proceso
+                </p>
+                <a href="https://docs.google.com/spreadsheets/d/1UqnNdMRlozzWe1_HYouSGRLr1UdhHUGcxtT8qNNyBXE/edit#gid=851074560" class="btn btn-primary">Archivo de Seguimiento</a>
+                <a href="http://localhost/adminlte/proyectos/LectoraQR/index.php" class="btn btn-primary">Sitio</a>
+              </div>
+            </div>       
+            <!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="m-0">Incremento de módulo coppel.com| Implementación</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Poyecto con un Avance del 64.91%</h6>
+
+                <p class="card-text">Status: Prceso</p>
+                <a href="https://docs.google.com/spreadsheets/d/1NzzzkmiQ1fxJA603sPA_4bIkb41BiAse8kjssdibSyg/edit#gid=1118690120" class="btn btn-primary">Archivo de Seguimiento</a>
+                <a href="http://localhost/adminlte/Proyectos/coppel.com/index.php" class="btn btn-primary">Sitio</a>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="m-0">PDA Conteo de Marcas Criticas | Implementaciones</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Poyecto con un Avance del 100.00%</h6>
+
+                <p class="card-text">Status: Termiada</p>
+                <a href="https://docs.google.com/spreadsheets/d/1RSdKsapLtP2jW5in1PMpos5FT5XRNqo7KEmo1ET6cgU/edit#gid=969053388" class="btn btn-primary">Archivo de Seguimiento</a>
+                <a href="https://localhost/adminlte/Proyectos/pda/index.php" class="btn btn-primary">Sitio</a>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="m-0">Seguimiento Renovación de iPad 5ta. Generación | Implementaciones</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Poyecto con un Avance del 83%</h6>
+
+                <p class="card-text">Status: Proceso</p>
+                <a href="https://docs.google.com/spreadsheets/d/1pCgh0w7n4bqPbfTaTrWjlAlaoBOoUvT97UvrUlmvfG8/edit#gid=1694169838" class="btn btn-primary">Archivo de Seguimiento</a>
+                <a href="·" class="card-link">Toca Dashboard</a>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Divisio de Tecnologia de Grupo Coppel</h5>
+      <a href="https://sites.google.com/coppel.com/staff-it/sistemas/nacional-i?authuser=0" class="btn btn-primary">Nacionl I</a>
+      <a href="https://sites.google.com/coppel.com/staff-it/sistemas/nacional-i?authuser=0" class="btn btn-primary">Nacionl II</a>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+    “La información contenida en este Sitio es propiedad de Coppel, es privilegiada, confidencial y para uso exclusivo de los destinatarios de la misma y/o de quienes han sido autorizados específicamente para leerla”.
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2024 <a href="https://www.coppel.com/acerca-de-nosotros">Coppel S.A. de C.V.</a>.</strong> All rights reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="views/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="views/plugins/chart.js/Chart.min.js"></script>
+<!-- AdminLTE App -->
+<script src="views/dist/js/adminlte.min.js"></script>
+<script>
+    function CargarContenido(contenedor,contenido){
+       $("."+contenedor).load(contenido);
+    }        
+</script>
+</body>
+</html>
+
+//--AJAX--//
+<?php
+
+     require_once "../controllers/procesos.controller.php";
+     require_once "../models/procesos.modelos.php";
+
+
+   class AjaxProcesos{
+
+     public function ListeTiendasTermindas(){
+
+        $respuesta = ProcesosController::ctrListeTiendasTerminadas();
+
+        echo json_encode($respuesta);
+
+     }
+   }
+
+   $procesos = new AjaxProcesos();
+   $procesos->ListeTiendasTermindas();
+
+//--CONTROLLERS--//
+<?php
+
+class ProcesosController{
+
+
+    static public function ctrListeTiendasTerminadas(){
+
+        $respuesta = ProcesosModelo::mdListeTiendasTerminadas();
+
+        return $respuesta;
+    }
+}
+?>
+
+<?php
+
+class templateController {
+
+    public function ctrCargarPlantilla(){
+        include "views/template.php";
+    }
+}
+?>
+
+//--MODELOS--//
+<?php
+
+require_once "conexion.php";
+
+class ProcesosModelo{
+
+    static public function mdListeTiendasTerminadas(){
+        $stmt = Conexion::conectar()->prepare("CALL prc_ListeTiendasTerminadas");        
+        
+        $stmt -> execute();
+
+        return $stmt->fetchall();
+
+        $stmt = null;
+    }
+
+}
+
+?>
